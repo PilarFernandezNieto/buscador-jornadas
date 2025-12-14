@@ -1,17 +1,18 @@
 <script setup>
 
-import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import RestauranteComponent from '@/components/RestauranteComponent.vue';
 
 const route = useRoute();
+const router = useRouter();
 
 const props = defineProps({
-    id: {
-        type: String,
-        required: true
-    }
+  id: {
+    type: String,
+    required: true
+  }
 })
 
 const jornada = ref([]);
@@ -22,29 +23,40 @@ const filtroEtiqueta = ref("")
 const filtroLocalidad = ref("")
 const terminoBusqueda = ref("")
 
+// 🔹 Cada cambio de query → nueva petición
+watch(
+  () => route.query,
+  () => {
+    getJornada()
+  }
+)
+
 const getJornada = async () => {
-    try {
-        const response = await axios.get('/src/data/jornadas.json');
-        const index = parseInt(props.id);
-        jornada.value = response.data.find(jornada => jornada.id === index)
-        restaurantes.value = jornada.value.restaurantes
-        etiquetas.value = jornada.value.etiquetas
-        localidades.value = jornada.value.localidades
-        console.log(etiquetas.value);
+  try {
+    const response = await axios.get('/src/data/jornadas.json');
+    const index = parseInt(props.id);
+    jornada.value = response.data.find(jornada => jornada.id === index)
+    restaurantes.value = jornada.value.restaurantes
+    etiquetas.value = jornada.value.etiquetas
+    localidades.value = jornada.value.localidades
 
-    } catch (error) {
-        console.log("Error cargando jornada: ", error);
+  } catch (error) {
+    console.log("Error cargando jornada: ", error);
 
-    }
+  }
 }
 
 const buscar = () => {
-    console.log('Desde buscar');
-    
+  const query = {}
+  query.etiqueta = filtroEtiqueta.value,
+    query.localidad = filtroLocalidad.value,
+    query.bsq = terminoBusqueda.value
+  router.push({ name: "Jornada", query })
+
 }
 
 onMounted(() => {
-    getJornada();
+  getJornada();
 })
 
 </script>
@@ -75,12 +87,8 @@ onMounted(() => {
 
       <div class="col-12 col-md-4 col-xl-6">
         <label class="form-label">Búsqueda</label>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Buscar por nombre de jornada o restaurante..."
-          v-model="terminoBusqueda"
-        />
+        <input type="text" class="form-control" placeholder="Buscar por nombre de jornada o restaurante..."
+          v-model="terminoBusqueda" />
       </div>
 
       <div class="col-12 col-md-2 col-xl-2 d-flex align-items-end">
@@ -92,11 +100,7 @@ onMounted(() => {
 
     <!-- Resultados de restaurantes -->
     <div class="row g-3">
-      <RestauranteComponent
-        v-for="restaurante in restaurantes"
-        :key="restaurante.id"
-        :restaurante="restaurante"
-      >
+      <RestauranteComponent v-for="restaurante in restaurantes" :key="restaurante.id" :restaurante="restaurante">
         {{ restaurante.nombre }}
       </RestauranteComponent>
     </div>
