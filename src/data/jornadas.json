@@ -1,0 +1,48 @@
+[
+  {
+    "id": 1,
+    "nombre": "Jornadas del Quesu",
+    "etiquetas": ["cabrales", "manchego", "afuega'l pitu"],
+    "localidades": ["Gijón", "Oviedo", "Cabrales"],
+    "restaurantes": [
+      { 
+        "nombre": "La Sidrería", 
+        "etiquetas": ["cabrales"], 
+        "localidad": "Gijón",
+        "descripcion": "Restaurante tradicional asturiano especializado en sidra y quesos locales."
+      },
+      { 
+        "nombre": "Quesería El Pitu", 
+        "etiquetas": ["afuega'l pitu"], 
+        "localidad": "Cabrales",
+        "descripcion": "Pequeña quesería con productos artesanos de afuega'l pitu."
+      },
+      { 
+        "nombre": "El Manchego", 
+        "etiquetas": ["manchego"], 
+        "localidad": "Oviedo",
+        "descripcion": "Restaurante con especialidad en quesos manchegos y platos típicos."
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "nombre": "Jornada de quesos asturianos",
+    "etiquetas": ["cabrales", "gamoneu"],
+    "localidades": ["Llanes", "Oviedo"],
+    "restaurantes": [
+      { 
+        "nombre": "Quesería Llanes", 
+        "etiquetas": ["gamoneu"], 
+        "localidad": "Llanes",
+        "descripcion": "Quesería local con productos frescos y de gran calidad."
+      },
+      { 
+        "nombre": "Sidrería Central", 
+        "etiquetas": ["cabrales"], 
+        "localidad": "Oviedo",
+        "descripcion": "Sidrería con ambiente familiar y tablas de quesos variados."
+      }
+    ]
+  }
+]
